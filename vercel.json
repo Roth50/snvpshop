@@ -7,15 +7,15 @@
   },
   "routes": [
     {
-      "handle": "filesystem"
-    },
-    {
       "src": "/",
       "dest": "/api/index.php?path=index.php"
     },
     {
       "src": "/(.*\\.php)",
       "dest": "/api/index.php?path=$1"
+    },
+    {
+      "handle": "filesystem"
     }
   ]
 }
