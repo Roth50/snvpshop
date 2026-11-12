@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+config.local.php
+.vercel
+data/*.db
+data/*.db-*
+vendor/
+node_modules/
