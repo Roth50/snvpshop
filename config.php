@@ -14,10 +14,10 @@ $config = [
     'currency' => $env('SHOP_CURRENCY', 'CURRENCY', 'USD'),
 
     'db_driver' => $env('SHOP_DB_DRIVER', 'DB_DRIVER', 'mysql'),
-    'db_host' => $env('SHOP_DB_HOST', 'DB_HOST', 'localhost'),
+    'db_host' => $env('SHOP_DB_HOST', 'DB_HOST', getenv('VERCEL') !== false ? '' : 'localhost'),
     'db_port' => (int) $env('SHOP_DB_PORT', 'DB_PORT', '3306'),
-    'db_name' => $env('SHOP_DB_NAME', 'DB_NAME', 'room_booking'),
-    'db_user' => $env('SHOP_DB_USER', 'DB_USER', 'root'),
+    'db_name' => $env('SHOP_DB_NAME', 'DB_NAME', getenv('VERCEL') !== false ? '' : 'room_booking'),
+    'db_user' => $env('SHOP_DB_USER', 'DB_USER', getenv('VERCEL') !== false ? '' : 'root'),
     'db_pass' => $env('SHOP_DB_PASS', 'DB_PASS'),
     'sqlite_file' => getenv('SHOP_SQLITE_FILE') ?: __DIR__ . '/data/shop.db',
 

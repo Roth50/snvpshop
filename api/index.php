@@ -30,4 +30,16 @@ if (!in_array($path, $pages, true)) {
 $script = '/' . $path;
 $_SERVER['SCRIPT_NAME'] = $script;
 $_SERVER['PHP_SELF'] = $script;
-require dirname(__DIR__) . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $path);
+try {
+    require dirname(__DIR__) . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $path);
+} catch (Throwable $error) {
+    error_log('Shop request failed (' . get_class($error) . '): ' . $error->getMessage());
+    http_response_code(503);
+    if ($path === 'pay_status.php') {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['status' => 'unavailable']);
+        exit;
+    }
+    header('Content-Type: text/html; charset=utf-8');
+    echo '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Shop temporarily unavailable</title><body><main><h1>Shop temporarily unavailable</h1><p>The shop database is not configured or is temporarily unreachable. Please try again later.</p></main></body></html>';
+}

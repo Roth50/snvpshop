@@ -14,14 +14,23 @@ function db(): PDO {
         $pdo = new PDO('sqlite:' . $file, null, null, $opts);
         $pdo->exec('PRAGMA foreign_keys = ON');
     } else {
-        $name = preg_replace('/[^A-Za-z0-9_]/', '', (string) cfg('db_name'));
+        $name = (string) cfg('db_name');
         $host = (string) cfg('db_host');
         $port = (int) cfg('db_port', 3306);
+        $user = (string) cfg('db_user');
+        $pass = (string) cfg('db_pass');
         if ($port < 1 || $port > 65535) throw new InvalidArgumentException('Database port must be between 1 and 65535.');
-        $dsn = "mysql:host=$host;port=$port;charset=utf8mb4";
-        $server = new PDO($dsn, cfg('db_user'), cfg('db_pass'), $opts);
-        $server->exec("CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-        $pdo = new PDO("mysql:host=$host;port=$port;dbname=$name;charset=utf8mb4", cfg('db_user'), cfg('db_pass'), $opts);
+        if (getenv('VERCEL') !== false && ($host === '' || in_array(strtolower($host), ['localhost', '127.0.0.1'], true) || $name === '' || $user === '' || $pass === '')) {
+            throw new RuntimeException('Production MySQL settings are incomplete. Set SHOP_DB_HOST, SHOP_DB_NAME, SHOP_DB_USER, and SHOP_DB_PASS in Vercel. Set SHOP_DB_PORT if your database uses a non-default port.');
+        }
+        if ($name === '' || !preg_match('/^[A-Za-z0-9_]+$/', $name)) {
+            throw new InvalidArgumentException('Database name must contain only letters, numbers, and underscores.');
+        }
+        if (getenv('VERCEL') === false) {
+            $server = new PDO("mysql:host=$host;port=$port;charset=utf8mb4", $user, $pass, $opts);
+            $server->exec("CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        }
+        $pdo = new PDO("mysql:host=$host;port=$port;dbname=$name;charset=utf8mb4", $user, $pass, $opts);
     }
     shop_migrate($pdo, $driver);
     return $pdo;

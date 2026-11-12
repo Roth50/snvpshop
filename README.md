@@ -31,6 +31,7 @@ Vercel does not officially support PHP. This project uses the community `vercel-
 - `BAKONG_ACCOUNT_ID`, `BAKONG_MERCHANT_NAME`, `BAKONG_MERCHANT_CITY`, and optionally `BAKONG_TOKEN`
 
 Do not use the local SQLite database in `data/shop.db` for deployment. Serverless filesystems are not persistent; product image uploads also need an external object-storage service before using that feature in production.
+The app also refuses to use local `localhost`/`root` MySQL defaults on Vercel and displays a safe unavailable page if production database settings are missing. Configure `SHOP_DB_HOST`, `SHOP_DB_NAME`, `SHOP_DB_USER`, and `SHOP_DB_PASS`; set `SHOP_DB_PORT` for the provider's public TCP port (default `3306`).
 
 ## KHQR
 - The QR is generated in `khqr.php` (no libraries needed). Each order gets a QR with its exact amount and expiry.
