@@ -27,7 +27,7 @@ Production must set `SHOP_ADMIN_USER`, `SHOP_ADMIN_EMAIL`, and `SHOP_ADMIN_PASS_
 Vercel does not officially support PHP. This project uses the community `vercel-php@0.9.0` runtime. Connect the repository to Vercel and set these project environment variables:
 
 - `SHOP_DB_DRIVER=mysql`
-- `SHOP_DB_HOST`, `SHOP_DB_NAME`, `SHOP_DB_USER`, `SHOP_DB_PASS` for a persistent managed MySQL database
+- `SHOP_DB_HOST`, `SHOP_DB_PORT`, `SHOP_DB_NAME`, `SHOP_DB_USER`, `SHOP_DB_PASS` for a persistent managed MySQL database (use Railway's public TCP host and port)
 - `SHOP_ADMIN_USER`, `SHOP_ADMIN_EMAIL`, `SHOP_ADMIN_PASS_HASH`
 - `BAKONG_ACCOUNT_ID`, `BAKONG_MERCHANT_NAME`, `BAKONG_MERCHANT_CITY`, and optionally `BAKONG_TOKEN`
 

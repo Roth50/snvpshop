@@ -15,9 +15,13 @@ function db(): PDO {
         $pdo->exec('PRAGMA foreign_keys = ON');
     } else {
         $name = preg_replace('/[^A-Za-z0-9_]/', '', (string) cfg('db_name'));
-        $server = new PDO('mysql:host=' . cfg('db_host') . ';charset=utf8mb4', cfg('db_user'), cfg('db_pass'), $opts);
+        $host = (string) cfg('db_host');
+        $port = (int) cfg('db_port', 3306);
+        if ($port < 1 || $port > 65535) throw new InvalidArgumentException('Database port must be between 1 and 65535.');
+        $dsn = "mysql:host=$host;port=$port;charset=utf8mb4";
+        $server = new PDO($dsn, cfg('db_user'), cfg('db_pass'), $opts);
         $server->exec("CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-        $pdo = new PDO('mysql:host=' . cfg('db_host') . ";dbname=$name;charset=utf8mb4", cfg('db_user'), cfg('db_pass'), $opts);
+        $pdo = new PDO("mysql:host=$host;port=$port;dbname=$name;charset=utf8mb4", cfg('db_user'), cfg('db_pass'), $opts);
     }
     shop_migrate($pdo, $driver);
     return $pdo;

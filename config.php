@@ -5,6 +5,7 @@ $config = [
 
     'db_driver' => getenv('SHOP_DB_DRIVER') ?: 'mysql',
     'db_host' => getenv('SHOP_DB_HOST') ?: 'localhost',
+    'db_port' => (int) (getenv('SHOP_DB_PORT') ?: 3306),
     'db_name' => getenv('SHOP_DB_NAME') ?: 'room_booking',
     'db_user' => getenv('SHOP_DB_USER') ?: 'root',
     'db_pass' => getenv('SHOP_DB_PASS') ?: '',
