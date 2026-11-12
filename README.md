@@ -26,9 +26,8 @@ Production must set `SHOP_ADMIN_USER`, `SHOP_ADMIN_EMAIL`, and `SHOP_ADMIN_PASS_
 ## Vercel deployment
 Vercel does not officially support PHP. This project uses the community `vercel-php@0.9.0` runtime. Connect the repository to Vercel and set these project environment variables:
 
-- `SHOP_DB_DRIVER=mysql`
-- `SHOP_DB_HOST`, `SHOP_DB_PORT`, `SHOP_DB_NAME`, `SHOP_DB_USER`, `SHOP_DB_PASS` for a persistent managed MySQL database (use Railway's public TCP host and port)
-- `SHOP_ADMIN_USER`, `SHOP_ADMIN_EMAIL`, `SHOP_ADMIN_PASS_HASH`
+- `SHOP_DB_DRIVER=mysql` (or `DB_DRIVER`), plus `SHOP_DB_HOST`/`DB_HOST`, `SHOP_DB_PORT`/`DB_PORT`, `SHOP_DB_NAME`/`DB_NAME`, `SHOP_DB_USER`/`DB_USER`, and `SHOP_DB_PASS`/`DB_PASS` for a persistent managed MySQL database (use Railway's public TCP host and port)
+- `SHOP_ADMIN_USER`/`ADMIN_USER`, `SHOP_ADMIN_EMAIL`/`ADMIN_EMAIL`, and `SHOP_ADMIN_PASS_HASH`/`ADMIN_PASS_HASH`
 - `BAKONG_ACCOUNT_ID`, `BAKONG_MERCHANT_NAME`, `BAKONG_MERCHANT_CITY`, and optionally `BAKONG_TOKEN`
 
 Do not use the local SQLite database in `data/shop.db` for deployment. Serverless filesystems are not persistent; product image uploads also need an external object-storage service before using that feature in production.
